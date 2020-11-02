@@ -49,8 +49,8 @@ impl<T> LinkedList<T> {
     fn pop(&mut self) -> Option<T> {
         self.head.take().map(|old_head| {
             self.head = old_head.borrow_mut().next.take();
-            let x3 = Rc::try_unwrap(old_head).ok(); // x3 is now an Option<RefCell<Node<T>>>. This is how you get the thing out of an Rc
-            x3.unwrap().into_inner().element
+            let maybe_boxed_node = Rc::try_unwrap(old_head).ok(); // maybe_boxed_node is now an Option<RefCell<Node<T>>>. This is how you get the thing out of an Rc
+            maybe_boxed_node.unwrap().into_inner().element
         })
     }
 
